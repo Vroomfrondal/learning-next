@@ -10,7 +10,7 @@ export default function MeetupId() {
             alt={'test'}
             title={'First Meetup'}
             address={'123 Springfield Ln. City, St'}
-            dsecription={"Viola, you're attending your first meetup"}
+            description={'Viola, your first meetup.'}
         />
     )
 }

@@ -7,7 +7,7 @@ function MeetupItem(props: any) {
 
     // pushes new page on stack of pages (Equivalent to  <Link/> component)
     const showDetailsHandler = () => {
-        router.push(`/new-meetup/${props.id}`)
+        router.push(`/${props.id}`)
     }
 
     return (
