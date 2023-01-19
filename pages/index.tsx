@@ -33,9 +33,8 @@ const DUMMY_MEETUPS = [
 ]
 
 export default function HomePage(props: Record<string, string[]>) {
-    // const [loadedMeetups, setLoadedMeetups] = useState<Record<string, string>[]>([])
-
     // Send HTTP Request for Data. This is the traditional client-side rendering method
+    // const [loadedMeetups, setLoadedMeetups] = useState<Record<string, string>[]>([])
     // useEffect(() => {
     //     setLoadedMeetups(DUMMY_MEETUPS)
     // }, [])
@@ -43,13 +42,21 @@ export default function HomePage(props: Record<string, string[]>) {
     return <MeetupList meetups={props.meetups} />
 }
 
-// This code only executes on server on build time. And never on client side. Must return object
-// Instead of rendering client side
+// This code only executes on server on build time. Must return an object,
+// Instead of rendering client side.
 export function getStaticProps() {
-    // fetch data from API
+    // fetch data from "API"
     return {
-        props: {
-            meetups: DUMMY_MEETUPS,
-        },
+        props: { meetups: DUMMY_MEETUPS },
+        revalidate: 1, // renews data every X seconds without having to rebuild
     }
 }
+
+// export async function getServerSideProps(context: any) {
+//     const request = context.req
+//     const res = context.res
+
+//     return {
+//         props: { meetups: DUMMY_MEETUPS },
+//     }
+// }

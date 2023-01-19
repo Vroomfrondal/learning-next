@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 function MeetupItem(props: any) {
     const router = useRouter()
 
-    // pushes new page on stack of pages (Equivalent to  <Link/> component)
+    // pushes new page on stack of pages (Equivalent to  <Link /> component)
     const showDetailsHandler = () => {
         router.push(`/${props.id}`)
     }
