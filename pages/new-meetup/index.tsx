@@ -1,5 +1,6 @@
 import NewMeetupForm from '../../components/meetups/NewMeetupForm'
 import axios from 'axios'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 export default function NewMeetupPage() {
@@ -20,6 +21,10 @@ export default function NewMeetupPage() {
 
     return (
         <>
+            <Head>
+                <title>Create a meetup</title>
+                <meta name='description' content='Create any new meetup to start socializing!' />
+            </Head>
             <NewMeetupForm onAddMeetup={addMeetupHandler} />
         </>
     )

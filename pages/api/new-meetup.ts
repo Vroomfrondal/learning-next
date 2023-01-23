@@ -15,7 +15,6 @@ async function handler(request: any, response: any) {
             const meetupsCollection = db.collection('learnnextjs')
 
             const result = await meetupsCollection.insertOne(data)
-
             console.log(result)
             client.close()
 

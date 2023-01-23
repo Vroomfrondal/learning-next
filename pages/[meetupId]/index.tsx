@@ -1,15 +1,24 @@
-/* eslint-disable @next/next/no-img-element */
 import { MongoClient, ObjectId } from 'mongodb'
+import Head from 'next/head'
 import MeetupDetail from '../../components/meetups/MeetupDetail'
 
 export default function MeetupId(props: any) {
     return (
-        <MeetupDetail
-            image={props.meetupData.image}
-            title={props.meetupData.title}
-            address={props.meetupData.address}
-            description={props.meetupData.description}
-        />
+        <>
+            <Head>
+                <title>{props.meetupData.title}</title>
+                <meta
+                    name='description'
+                    content={`Checking out meetup ${props.meetupData.title}`}
+                />
+            </Head>
+            <MeetupDetail
+                image={props.meetupData.image}
+                title={props.meetupData.title}
+                address={props.meetupData.address}
+                description={props.meetupData.description}
+            />
+        </>
     )
 }
 
@@ -39,9 +48,7 @@ export async function getStaticProps(context: any) {
 
     const selectedMeetup = await meetupsCollection.findOne({ _id: new ObjectId(meetupId) })
     client.close()
-    console.log('test: ', selectedMeetup)
 
-    // return { props: { meetupData: JSON.stringify(selectedMeetup) } }
     return {
         props: {
             meetupData: {
