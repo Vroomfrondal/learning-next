@@ -32,7 +32,7 @@ export async function getStaticPaths() {
     client.close()
 
     return {
-        fallback: false, // tells next that array contains all possible values.
+        fallback: 'blocking', // tells next that array contains all possible values. was false during development
         paths: meetups.map((meetup: Record<string, string>) => ({
             params: { meetupId: meetup._id.toString() },
         })),
