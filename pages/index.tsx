@@ -1,4 +1,4 @@
-// import { useEffect, useState } from 'react'
+import { MongoClient } from 'mongodb'
 import MeetupList from '../components/meetups/MeetupList'
 
 const DUMMY_MEETUPS = [
@@ -33,30 +33,31 @@ const DUMMY_MEETUPS = [
 ]
 
 export default function HomePage(props: Record<string, string[]>) {
-    // Send HTTP Request for Data. This is the traditional client-side rendering method
-    // const [loadedMeetups, setLoadedMeetups] = useState<Record<string, string>[]>([])
-    // useEffect(() => {
-    //     setLoadedMeetups(DUMMY_MEETUPS)
-    // }, [])
-
+    // Traditional client-side rendering method
+    // const [loadedMeetups, setLoadedMeetups] = useState([])
+    // useEffect(() => { setLoadedMeetups(DUMMY_MEETUPS) }, [])
     return <MeetupList meetups={props.meetups} />
 }
 
-// This code only executes on server on build time. Must return an object,
-// Instead of rendering client side.
-export function getStaticProps() {
-    // fetch data from "API"
+// This code only executes on server on build time. Never exposed/rendered on client. Must return an object.
+export async function getStaticProps() {
+    // mongo POST request for data
+    const client = await MongoClient.connect(process.env.NEXT_PUBLIC_MONGO_URL!)
+    const db = client.db()
+    const meetupsCollection = db.collection('learnnextjs')
+
+    const meetups = await meetupsCollection.find().toArray()
+    client.close()
+
     return {
-        props: { meetups: DUMMY_MEETUPS },
+        props: {
+            meetups: meetups.map((meetup: Record<string, string>) => ({
+                id: meetup._id.toString(),
+                title: meetup.title,
+                address: meetup.address,
+                image: meetup.image,
+            })),
+        },
         revalidate: 1, // renews data every X seconds without having to rebuild
     }
 }
-
-// export async function getServerSideProps(context: any) {
-//     const request = context.req
-//     const res = context.res
-
-//     return {
-//         props: { meetups: DUMMY_MEETUPS },
-//     }
-// }
